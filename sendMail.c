@@ -5,23 +5,19 @@ int main(void)
     CURLcode ret;
     CURL *hnd;
     struct curl_slist *recipients;
-
+    FILE *fd;
+    
     recipients = NULL;
     recipients = curl_slist_append(recipients, "recipient@gmail.com");
-
-    FILE *fd;
-
+    
     fd = fopen("mail.txt", "rb");
-
     if (!fd) {return 1;} 
 
     hnd = curl_easy_init();
     curl_easy_setopt(hnd, CURLOPT_INFILESIZE_LARGE, (curl_off_t)179);
     curl_easy_setopt(hnd, CURLOPT_URL, "smtps://smtp.gmail.com:465/mail.txt");
     curl_easy_setopt(hnd, CURLOPT_UPLOAD, 1L);
-
     curl_easy_setopt(hnd, CURLOPT_READDATA, fd); 
-
     curl_easy_setopt(hnd, CURLOPT_USERPWD, "sender@gmail.com:senderPass");
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.47.0");
     curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
